@@ -1,11 +1,12 @@
 import { useState } from "react";
 import "./Emoji.css";
 
-type EMOJI_KEYS = "happy" | "sick" | "dead";
+type EMOJI_KEYS = "happy" | "sick" | "dead" | "boring";
 const EMOJI_MAP = new Map<EMOJI_KEYS, string>([
     ["happy", "🙂"],
     ["sick", "🤢"],
     ["dead", "😵"],
+    ["boring", "🥰"],
 ]);
 
 
@@ -32,6 +33,30 @@ export default function Emoji() {
         setStatus("dead");
         console.log("Status: ", status);
     }
+    function boringClick() {
+        console.log("Status: ", status);
+        console.log("Boring!");
+        setStatus("boring");
+        console.log("Status: ", status);
+    }
+    function cicleClick(){
+        switch (status){
+            case "dead":
+                setStatus("happy");
+                break;
+            case "happy":
+                setStatus("sick");
+                break;
+            case "sick":
+                setStatus("boring");
+                break;
+            case "boring":
+                setStatus("dead");
+                break;
+            default:
+                setStatus("happy");    
+        }
+    }
     
     console.log("Desenhando...");
     console.log("Status: ", status);
@@ -45,6 +70,8 @@ export default function Emoji() {
                 <button onClick={happyClick}>Happy</button>
                 <button onClick={sickClick}>Sick</button>
                 <button onClick={deadClick}>Dead</button>
+                <button onClick={boringClick}>Boring</button>
+                <button onClick={cicleClick}>Cicle</button>
             </div>
         </>
     );
