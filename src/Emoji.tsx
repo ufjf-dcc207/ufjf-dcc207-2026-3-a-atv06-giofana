@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./Emoji.css";
+import Atributo from "./Atributo";
 
 type EMOJI_KEYS = "happy" | "sick" | "dead" | "boring";
 const EMOJI_MAP = new Map<EMOJI_KEYS, string>([
@@ -13,7 +14,7 @@ const EMOJI_MAP = new Map<EMOJI_KEYS, string>([
 
 export default function Emoji() {
 
-    const [status, setStatus] = useState<EMOJI_KEYS>("sick")
+    const [status, setStatus] = useState<EMOJI_KEYS>("happy")
 
     function happyClick() {
         console.log("Status: ", status);
@@ -66,6 +67,7 @@ export default function Emoji() {
             <div className="emoji">
                 {EMOJI_MAP.get(status) || "🫥"}
             </div>
+            <Atributo />
             <div className="acoes">
                 <button onClick={happyClick}>Happy</button>
                 <button onClick={sickClick}>Sick</button>
