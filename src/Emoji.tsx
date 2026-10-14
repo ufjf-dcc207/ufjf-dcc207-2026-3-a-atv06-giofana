@@ -2,12 +2,11 @@ import { useState } from "react";
 import "./Emoji.css";
 import Atributo from "./Atributo";
 
-type EMOJI_KEYS = "happy" | "sick" | "dead" | "boring";
+type EMOJI_KEYS = "happy" | "sick" | "dead";
 const EMOJI_MAP = new Map<EMOJI_KEYS, string>([
     ["happy", "🙂"],
     ["sick", "🤢"],
     ["dead", "😵"],
-    ["boring", "🥰"],
 ]);
 
 
@@ -15,69 +14,50 @@ const EMOJI_MAP = new Map<EMOJI_KEYS, string>([
 export default function Emoji() {
 
     const [status, setStatus] = useState<EMOJI_KEYS>("happy")
+    const [vida, setVida] = useState<number>(5);
+    const [energia, setEnergia] = useState<number>(4);
+    const [comida, setComida] = useState<number>(1);
+    const [agua, setAgua] = useState<number>(2);
+    const [luz, setLuz] = useState<boolean>(true);
 
-    function happyClick() {
-        console.log("Status: ", status);
-        console.log("Happy!!");
-        setStatus("happy");
-        console.log("Status: ", status);
+    function alimentarClick() {
+        setComida(Math.min(5, comida + 1));
     }
-    function sickClick() {
-        console.log("Status: ", status);
-        console.log("Sick!!");
-        setStatus("sick");
-        console.log("Status: ", status);
+    function hidratarClick() {
+        setAgua(Math.min(5, agua + 1));
     }
-    function deadClick() {
-        console.log("Status: ", status);
-        console.log("Dead!");
-        setStatus("dead");
-        console.log("Status: ", status);
+    function altenarLuzClick() {
+        setLuz(!luz);
     }
-    function boringClick() {
-        console.log("Status: ", status);
-        console.log("Boring!");
-        setStatus("boring");
-        console.log("Status: ", status);
-    }
-    function cicleClick(){
-        switch (status){
-            case "dead":
-                setStatus("happy");
-                break;
-            case "happy":
-                setStatus("sick");
-                break;
-            case "sick":
-                setStatus("boring");
-                break;
-            case "boring":
-                setStatus("dead");
-                break;
-            default:
-                setStatus("happy");    
+    function cicloClick() {
+        if (luz) {
+            setEnergia(Math.max(0, energia - 1));
+        } else {
+            setEnergia(Math.min(5, energia + 1));
         }
     }
-    
+
     console.log("Desenhando...");
     console.log("Status: ", status);
 
     return (
-        <>
-            <div className="emoji">
+        <div className="emoji">
+            <div className="face">
                 {EMOJI_MAP.get(status) || "🫥"}
             </div>
-            <Atributo icone="❤️" />
-            <Atributo icone="🔋" />
-            <Atributo icone="💧" />
-            <Atributo icone="🍗" />
-            <div className="acoes">
-                <button onClick={happyClick}>Happy</button>
-                <button onClick={sickClick}>Sick</button>
-                <button onClick={deadClick}>Dead</button>
-                <button onClick={boringClick}>Boring</button>
-                <button onClick={cicleClick}>Cicle</button>
+            <div className="atributos">
+                <Atributo icone="❤️" valor={vida} />
+                <Atributo icone="🔋" valor={energia} />
+                <Atributo icone="💧" valor={agua} />
+                <Atributo icone="🍗" valor={comida} />
+                {luz && "💡"}
             </div>
-        </>
+            <div className="acoes">
+                <button onClick={alimentarClick}>Alimentar</button>
+                <button onClick={hidratarClick}>Hidratar</button>
+                <button onClick={altenarLuzClick}>{luz ? 'Desligar' : 'Ligar'} Luz</button>
+                <button onClick={cicloClick}>Ciclo</button>
+            </div>
+        </div>
     );
 }
